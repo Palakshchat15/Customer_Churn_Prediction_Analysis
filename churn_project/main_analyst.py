@@ -10,11 +10,12 @@ if str(current_dir) not in sys.path:
 
 from src.sql_engine import run_etl
 from src.eda_analyst import run_analyst_eda
+from src.ml.pipeline import run_pipeline as run_ml_pipeline
 
 def main():
     """
     Main orchestrator for the End-to-End Data Analysis project.
-    Flow: SQL ETL -> Statistical EDA -> Report Generation
+    Flow: SQL ETL -> Statistical EDA -> ML Training -> Report Generation
     """
     print("\n" + "#"*60)
     print("  END-TO-END DATA ANALYSIS PROJECT: CUSTOMER CHURN")
@@ -26,12 +27,24 @@ def main():
     # 2. Run Analyst EDA
     run_analyst_eda()
     
+    # 3. Run ML Pipeline (Feature Engineering, Training, SHAP, LLM)
+    run_ml_pipeline()
+    
+    # 4. RAG Chatbot Info
+    print("\n" + "="*50)
+    print("  RAG CHATBOT")
+    print("="*50)
+    print("The RAG Chatbot is ready. To use it interactively, run:")
+    print("python src/ml/rag_chatbot.py")
+    print("(Note: Requires HUGGINGFACEHUB_API_TOKEN in your .env file)")
+    
     print("\n" + "#"*60)
     print("  PROJECT EXECUTION COMPLETE")
     print("  1. ETL: DuckDB SQL pipeline (data/processed/cell2cell_engineered.csv)")
     print("  2. EDA: Statistical visualizations (outputs/analyst_plots/)")
-    print("  3. BI:  Update Tableau with the cleaned CSV")
-    print("  4. DOC: Review report/Full_Technical_Manual.md")
+    print("  3. ML:  XGBoost Model (models/xgboost_churn_model.pkl)")
+    print("  4. BI:  Update Tableau with the cleaned CSV")
+    print("  5. DOC: Review report/Full_Technical_Manual.md")
     print("#"*60 + "\n")
 
 if __name__ == "__main__":
